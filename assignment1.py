@@ -275,20 +275,20 @@ def count_sort(arr: StaticArray) -> StaticArray:
     frequency = StaticArray(max_value + 1)
     for i in range(length):
         element = arr.get(i)
-        count = frequency.get(element)
+        count = frequency.get(element, 0)  # Default to 0 if the element is not present
         frequency.set(element, count + 1)
 
     # Calculate the starting indices for each element in the sorted array
     for i in range(1, max_value + 1):
-        count = frequency.get(i)
-        prev_count = frequency.get(i - 1)
+        count = frequency.get(i, 0)  # Default to 0 if the element is not present
+        prev_count = frequency.get(i - 1, 0)  # Default to 0 if the element is not present
         frequency.set(i, count + prev_count)
 
     # Create a new StaticArray for the sorted elements
-    sorted_arr = StaticArray(length)
+    sorted_arr = StaticArray(max_value + 1)
     for i in range(length - 1, -1, -1):
         element = arr.get(i)
-        count = frequency.get(element)
+        count = frequency.get(element, 0)  # Default to 0 if the element is not present
         sorted_arr.set(count - 1, element)
         frequency.set(element, count - 1)
 
