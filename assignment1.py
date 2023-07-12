@@ -136,34 +136,39 @@ def sa_range(start: int, end: int) -> StaticArray:
     # Return the StaticArray
     return arr
 
+
 def is_sorted(arr: StaticArray) -> int:
     """
-    receives a StaticArray and returns an integer that describes whether
-    the array is sorted. The method must return:
-    ● 1 if the array is sorted in strictly ascending order.
-    ● -1 if the list is sorted in strictly descending order.
-    ● 0 otherwise.
-    Arrays consisting of a single element are considered sorted in strictly ascending order.
+    Check if a StaticArray is sorted and return an integer describing the order.
 
     Args:
         arr (StaticArray): The StaticArray object to check.
 
     Returns:
         int: An integer that describes whether the array is sorted.
-
+             1 if the array is sorted in strictly ascending order,
+             -1 if the array is sorted in strictly descending order,
+             0 otherwise.
     """
+    length = arr.length()
 
-    is_sorted_ascending = True
-    is_sorted_descending = True
-    for i in range(1, arr.length()):
-        if arr.get(i - 1) > arr.get(i):
-            is_sorted_ascending = False
-        if arr.get(i - 1) < arr.get(i):
-            is_sorted_descending = False
+    # Check for ascending order
+    is_ascending = True
+    for i in range(1, length):
+        if arr.get(i) < arr.get(i - 1):
+            is_ascending = False
+            break
 
-    if is_sorted_ascending:
+    # Check for descending order
+    is_descending = True
+    for i in range(1, length):
+        if arr.get(i) > arr.get(i - 1):
+            is_descending = False
+            break
+
+    if is_ascending:
         return 1
-    elif is_sorted_descending:
+    elif is_descending:
         return -1
     else:
         return 0
