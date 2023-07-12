@@ -229,27 +229,27 @@ def remove_duplicates(arr: StaticArray) -> StaticArray:
     Returns:
         StaticArray: A new StaticArray object without duplicate values.
     """
-    size = arr.length()  # Get the size of the input array
-    if size <= 1:
-        return arr  # If the array has 0 or 1 element, there are no duplicates
+    length = arr.length()
 
-    unique_values = []  # List to store unique values
-    prev_value = arr.get(0)  # Initialize the previous value with the first element
+    # Calculate the maximum possible size of the new array
+    max_size = length
+    for i in range(1, length):
+        if arr.get(i) == arr.get(i - 1):
+            max_size -= 1
 
-    # Iterate over the array starting from the second element
-    for i in range(1, size):
-        current_value = arr.get(i)  # Get the current value
+    # Create a new StaticArray with the maximum possible size
+    new_arr = StaticArray(max_size)
 
-        if current_value != prev_value:
-            unique_values.append(current_value)  # Add unique values to the list
-            prev_value = current_value  # Update the previous value
+    # Copy the non-duplicate elements to the new array
+    new_index = 0
+    new_arr.set(new_index, arr.get(0))
+    new_index += 1
+    for i in range(1, length):
+        if arr.get(i) != arr.get(i - 1):
+            new_arr.set(new_index, arr.get(i))
+            new_index += 1
 
-    # Create a new StaticArray with the unique values
-    result = StaticArray(len(unique_values))
-    for i, value in enumerate(unique_values):
-        result.set(i, value)
-
-    return result
+    return new_arr
 
 def count_sort(arr: StaticArray) -> StaticArray:
     """
