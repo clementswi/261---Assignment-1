@@ -139,40 +139,36 @@ def sa_range(start: int, end: int) -> StaticArray:
 
 def is_sorted(arr: StaticArray) -> int:
     """
-    Check if a StaticArray is sorted and return an integer describing the order.
+    Checks if a StaticArray is sorted in strictly ascending or descending order.
 
     Args:
         arr (StaticArray): The StaticArray object to check.
 
     Returns:
-        int: An integer that describes whether the array is sorted.
-             1 if the array is sorted in strictly ascending order,
+        int: 1 if the array is sorted in strictly ascending order,
              -1 if the array is sorted in strictly descending order,
              0 otherwise.
     """
     length = arr.length()
 
-    # Check for ascending order
-    is_ascending = True
-    for i in range(1, length):
-        if arr.get(i) < arr.get(i - 1):
-            is_ascending = False
-            break
-
-    if is_ascending:
+    if length <= 1:
         return 1
 
-    # Check for descending order
-    is_descending = True
-    for i in range(1, length):
-        if arr.get(i) > arr.get(i - 1):
-            is_descending = False
-            break
+    first_element = arr.get(0)
+    last_element = arr.get(length - 1)
 
-    if is_descending:
+    if first_element < last_element:
+        for i in range(1, length):
+            if arr.get(i) < arr.get(i - 1):
+                return 0
+        return 1
+
+    if first_element > last_element:
+        for i in range(1, length):
+            if arr.get(i) > arr.get(i - 1):
+                return 0
         return -1
 
-    # The array is not sorted
     return 0
 
 def find_mode(arr: StaticArray) -> tuple[object, int]:
