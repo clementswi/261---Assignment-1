@@ -258,37 +258,41 @@ def count_sort(arr: StaticArray) -> StaticArray:
     Returns:
         StaticArray: A new StaticArray object with the content sorted in non-ascending order.
     """
+    length = arr.length()
 
-    # Find the minimum and maximum values in the input array
-    min_val = arr[0]
-    max_val = arr[0]
-    for num in arr:
-        if num < min_val:
-            min_val = num
-        elif num > max_val:
-            max_val = num
+    # Find the minimum and maximum values in the array
+    min_val = arr.get(0)
+    max_val = arr.get(0)
+    for i in range(length):
+        current_value = arr.get(i)
+        if current_value < min_val:
+            min_val = current_value
+        elif current_value > max_val:
+            max_val = current_value
 
     # Create a count array to store the frequency of each element in the input array
-    count = {}
-    for num in arr:
-        if num not in count:
-            count[num] = 0
-        count[num] += 1
+    count_len = max_val - min_val + 1
+    count = StaticArray(count_len)
+    for i in range(length):
+        current_value = arr.get(i)
+        count_index = current_value - min_val
+        count_value = count.get(count_index)
+        count.set(count_index, count_value + 1)
 
     # Compute the length of the output array
-    output_len = sum(count.values())
+    output_len = sum(count)
 
-    # Create a new output generator that yields each element in its correct position
-    def output_gen():
-        for num in range(max_val, min_val - 1, -1):
-            if num in count:
-                for j in range(count[num]):
-                    yield num
-
-    # Convert the output generator to a StaticArray
+    # Create a new output array
     output = StaticArray(output_len)
-    for i, num in enumerate(output_gen()):
-        output[i] = num
+
+    # Generate the sorted output array
+    output_index = 0
+    for i in range(count_len):
+        count_value = count.get(i)
+        while count_value > 0:
+            output.set(output_index, i + min_val)
+            output_index += 1
+            count_value -= 1
 
     return output
 
