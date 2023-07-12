@@ -269,22 +269,26 @@ def count_sort(arr: StaticArray) -> StaticArray:
             max_val = num
 
     # Create a count array to store the frequency of each element in the input array
-    count = [0] * (max_val - min_val + 1)
+    count = {}
     for num in arr:
-        count[num - min_val] += 1
+        if num not in count:
+            count[num] = 0
+        count[num] += 1
 
-    # Modify the count array to store the cumulative sum of counts
-    for i in range(1, len(count)):
-        count[i] += count[i - 1]
+    # Compute the length of the output array
+    output_len = sum(count.values())
 
-    # Create a new output array with the same length as the input array
-    output = [0] * len(arr)
+    # Create a new output generator that yields each element in its correct position
+    def output_gen():
+        for num in range(max_val, min_val - 1, -1):
+            if num in count:
+                for j in range(count[num]):
+                    yield num
 
-    # Iterate over the input array in reverse order and place each element in its correct position in the output array
-    for i in range(len(arr) - 1, -1, -1):
-        num = arr[i]
-        output[count[num - min_val] - 1] = num
-        count[num - min_val] -= 1
+    # Convert the output generator to a StaticArray
+    output = StaticArray(output_len)
+    for i, num in enumerate(output_gen()):
+        output[i] = num
 
     return output
 
