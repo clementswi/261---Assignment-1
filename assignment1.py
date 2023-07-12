@@ -258,37 +258,35 @@ def count_sort(arr: StaticArray) -> StaticArray:
     Returns:
         StaticArray: A new StaticArray object with the content sorted in non-ascending order.
     """
-    length = arr.length()
 
-    # Find the maximum element in the array
-    max_value = 0
-    for i in range(length):
-        current_value = arr.get(i)
-        if current_value > max_value:
-            max_value = current_value
+    # Find the minimum and maximum values in the input array
+    min_val = arr[0]
+    max_val = arr[0]
+    for num in arr:
+        if num < min_val:
+            min_val = num
+        elif num > max_val:
+            max_val = num
 
-    # Create a frequency array to count occurrences of each element
-    frequency = StaticArray(max_value + 1)
-    for i in range(length):
-        current_value = arr.get(i)
-        count = frequency.get(current_value)
-        frequency.set(current_value, count + 1)
+    # Create a count array to store the frequency of each element in the input array
+    count = [0] * (max_val - min_val + 1)
+    for num in arr:
+        count[num - min_val] += 1
 
-    # Calculate the starting indices for each element in the sorted array
-    for i in range(1, max_value + 1):
-        count = frequency.get(i)
-        prev_count = frequency.get(i - 1)
-        frequency.set(i, count + prev_count)
+    # Modify the count array to store the cumulative sum of counts
+    for i in range(1, len(count)):
+        count[i] += count[i - 1]
 
-    # Create a new StaticArray for the sorted elements
-    sorted_arr = StaticArray(length)
-    for i in range(length - 1, -1, -1):
-        current_value = arr.get(i)
-        count = frequency.get(current_value)
-        sorted_arr.set(count - 1, current_value)
-        frequency.set(current_value, count - 1)
+    # Create a new output array with the same length as the input array
+    output = [0] * len(arr)
 
-    return sorted_arr
+    # Iterate over the input array in reverse order and place each element in its correct position in the output array
+    for i in range(len(arr) - 1, -1, -1):
+        num = arr[i]
+        output[count[num - min_val] - 1] = num
+        count[num - min_val] -= 1
+
+    return output
 
 def sorted_squares(arr: StaticArray) -> StaticArray:
     """
