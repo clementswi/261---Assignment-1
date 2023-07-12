@@ -158,11 +158,9 @@ def is_sorted(arr: StaticArray) -> int:
         if arr.get(i) < arr.get(i - 1):
             is_ascending = False
             break
-        elif arr.get(i) > arr.get(i - 1):
-            # If there's at least one element greater than the previous,
-            # it means the array is not strictly ascending
-            is_ascending = False
-            break
+
+    if is_ascending:
+        return 1
 
     # Check for descending order
     is_descending = True
@@ -170,18 +168,12 @@ def is_sorted(arr: StaticArray) -> int:
         if arr.get(i) > arr.get(i - 1):
             is_descending = False
             break
-        elif arr.get(i) < arr.get(i - 1):
-            # If there's at least one element smaller than the previous,
-            # it means the array is not strictly descending
-            is_descending = False
-            break
 
-    if is_ascending:
-        return 1
-    elif is_descending:
+    if is_descending:
         return -1
-    else:
-        return 0
+
+    # The array is not sorted
+    return 0
 
 def find_mode(arr: StaticArray) -> tuple[object, int]:
     """
