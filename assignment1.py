@@ -99,17 +99,13 @@ def rotate(arr: StaticArray, steps: int) -> StaticArray:
     # Copy the elements from the original array to the rotated array
     for i in range(arr.length()):
         # Calculate the new index for each element based on the rotation direction
-        if steps > 0:
-            new_index = (i + effective_steps) % arr.length()
-        else:
-            new_index = (i - effective_steps) % arr.length()
+        new_index = (i + effective_steps) % arr.length()
 
         # Set the element at the new index in the rotated array
         rotated_array.set(new_index, arr.get(i))
 
     # Return the rotated array
     return rotated_array
-
 
 
 
