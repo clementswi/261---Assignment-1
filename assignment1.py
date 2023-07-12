@@ -7,8 +7,8 @@
 # Description:Various methods such as sort and min max for a given static array class
 
 
-
-import StaticArray
+import random
+from static_array import *
 
 def min_max(arr: StaticArray) -> tuple[int, int]:
     """
