@@ -120,7 +120,7 @@ def sa_range(start: int, end: int) -> StaticArray:
         StaticArray: A StaticArray object that contains all the consecutive integers between start and end.
     """
     # Calculate the size of the StaticArray based on the range
-    size = abs(end - start) + 1
+    size = end - start + 1 if end >= start else start - end + 1
 
     # Create a new StaticArray with the calculated size
     arr = StaticArray(size)
