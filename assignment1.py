@@ -158,11 +158,21 @@ def is_sorted(arr: StaticArray) -> int:
         if arr.get(i) < arr.get(i - 1):
             is_ascending = False
             break
+        elif arr.get(i) > arr.get(i - 1):
+            # If there's at least one element greater than the previous,
+            # it means the array is not strictly ascending
+            is_ascending = False
+            break
 
     # Check for descending order
     is_descending = True
     for i in range(1, length):
         if arr.get(i) > arr.get(i - 1):
+            is_descending = False
+            break
+        elif arr.get(i) < arr.get(i - 1):
+            # If there's at least one element smaller than the previous,
+            # it means the array is not strictly descending
             is_descending = False
             break
 
