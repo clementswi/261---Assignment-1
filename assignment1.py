@@ -262,39 +262,33 @@ def count_sort(arr: StaticArray) -> StaticArray:
     Returns:
         StaticArray: A new StaticArray object with the content sorted in non-ascending order.
     """
-    size = arr.length()  # Get the size of the input array
+    length = arr.length()
 
-    # Find the maximum value in the array
-    max_value = float('-inf')
-    for i in range(size):
-        value = arr.get(i)
-        if value > max_value:
-            max_value = value
+    # Find the maximum element in the array
+    max_value = float("-inf")
+    for i in range(length):
+        element = arr.get(i)
+        if element > max_value:
+            max_value = element
 
-    # Create a count array with size = max_value + 1
-    count = StaticArray(max_value + 1)
+    # Create a frequency array to count occurrences of each element
+    frequency = [0] * (max_value + 1)
+    for i in range(length):
+        element = arr.get(i)
+        frequency[element] += 1
 
-    # Count the occurrences of each value in the input array
-    for i in range(size):
-        value = arr.get(i)
-        count.set(value, count.get(value) + 1)
-
-    # Modify the count array to store the starting position of each value in the sorted array
+    # Calculate the starting indices for each element in the sorted array
     for i in range(1, max_value + 1):
-        count.set(i, count.get(i) + count.get(i - 1))
+        frequency[i] += frequency[i - 1]
 
-    # Create a new StaticArray to store the sorted elements
-    sorted_arr = StaticArray(size)
-
-    # Populate the sorted array by iterating the input array in reverse order
-    for i in range(size - 1, -1, -1):
-        value = arr.get(i)
-        count_value = count.get(value)
-        sorted_arr.set(count_value - 1, value)
-        count.set(value, count_value - 1)
+    # Create a new StaticArray for the sorted elements
+    sorted_arr = StaticArray(length)
+    for i in range(length - 1, -1, -1):
+        element = arr.get(i)
+        sorted_arr.set(frequency[element] - 1, element)
+        frequency[element] -= 1
 
     return sorted_arr
-
 def sorted_squares(arr: StaticArray) -> StaticArray:
     """
     Squares the values of a StaticArray in sorted order and returns a new StaticArray
