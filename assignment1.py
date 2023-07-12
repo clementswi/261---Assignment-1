@@ -153,15 +153,18 @@ def is_sorted(arr: StaticArray) -> int:
     if arr.length() == 1:
         return 1
 
-        # Check if array is sorted in ascending order
-    if all(arr.get(i) <= arr.get(i + 1) for i in range(arr.length() - 1)):
+    ascending = True
+    descending = True
+    for i in range(arr.length() - 1):
+        if arr.get(i) > arr.get(i + 1):
+            ascending = False
+        if arr.get(i) < arr.get(i + 1):
+            descending = False
+
+    if ascending:
         return 1
-
-        # Check if array is sorted in descending order
-    elif all(arr.get(i) >= arr.get(i + 1) for i in range(arr.length() - 1)):
+    elif descending:
         return -1
-
-        # Array is not sorted
     else:
         return 0
 
