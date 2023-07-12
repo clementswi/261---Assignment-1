@@ -177,33 +177,46 @@ def is_sorted(arr: StaticArray) -> int:
 
 def find_mode(arr: StaticArray) -> tuple[object, int]:
     """
-    receives a StaticArray that is sorted in either non-descending or
-    non-ascending order. The function will return the mode (the most-occurring element) of the
-    array and its frequency (how many times it appears).
-    If there is more than one element that has the highest frequency, select the one that occurs
-    first in the array.
+    Find the mode (most-occurring element) and its frequency in a sorted StaticArray.
 
     Args:
         arr (StaticArray): The StaticArray object to check.
 
     Returns:
         tuple[object, int]: A tuple of the mode of the array and its frequency.
-
     """
+    length = arr.length()
 
-    max_count = 0
+    # Initialize variables for tracking the mode and frequency
     mode = arr.get(0)
-    for i in range(1, arr.length()):
-        count = 1
-        while i < arr.length() - 1 and arr.get(i) == arr.get(i + 1):
-            count += 1
-            i += 1
+    frequency = 1
+    current_element = arr.get(0)
+    current_frequency = 1
 
-        if count > max_count:
-            max_count = count
-            mode = arr.get(i - 1)
+    # Iterate through the array
+    for i in range(1, length):
+        element = arr.get(i)
 
-    return mode, max_count
+        # If the current element is the same as the previous one, increase its frequency
+        if element == current_element:
+            current_frequency += 1
+        else:
+            # If the frequency of the current element is higher than the mode's frequency,
+            # update the mode and its frequency
+            if current_frequency > frequency:
+                mode = current_element
+                frequency = current_frequency
+
+            # Reset the current element and its frequency for the new element
+            current_element = element
+            current_frequency = 1
+
+    # Check the frequency of the last element
+    if current_frequency > frequency:
+        mode = current_element
+        frequency = current_frequency
+
+    return mode, frequency
 
 def remove_duplicates(arr: StaticArray) -> StaticArray:
     """
