@@ -150,7 +150,7 @@ def is_sorted(arr: StaticArray) -> int:
              0 otherwise.
     """
 
-    if arr.length() == 1:
+    if arr.length() <= 1:
         return 1
 
     ascending = True
@@ -161,9 +161,9 @@ def is_sorted(arr: StaticArray) -> int:
         if arr.get(i) < arr.get(i + 1):
             descending = False
 
-    if ascending:
+    if ascending and not descending:
         return 1
-    elif descending:
+    elif descending and not ascending:
         return -1
     else:
         return 0
