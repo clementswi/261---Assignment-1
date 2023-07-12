@@ -149,27 +149,21 @@ def is_sorted(arr: StaticArray) -> int:
              -1 if the array is sorted in strictly descending order,
              0 otherwise.
     """
-    length = arr.length()
 
-    if length <= 1:
+    if arr.length() == 1:
         return 1
 
-    first_element = arr.get(0)
-    last_element = arr.get(length - 1)
-
-    if first_element < last_element:
-        for i in range(1, length):
-            if arr.get(i) < arr.get(i - 1):
-                return 0
+        # Check if array is sorted in ascending order
+    if all(arr.get(i) <= arr.get(i + 1) for i in range(arr.length() - 1)):
         return 1
 
-    if first_element > last_element:
-        for i in range(1, length):
-            if arr.get(i) > arr.get(i - 1):
-                return 0
+        # Check if array is sorted in descending order
+    elif all(arr.get(i) >= arr.get(i + 1) for i in range(arr.length() - 1)):
         return -1
 
-    return 0
+        # Array is not sorted
+    else:
+        return 0
 
 def find_mode(arr: StaticArray) -> tuple[object, int]:
     """
