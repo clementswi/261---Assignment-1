@@ -108,25 +108,29 @@ def rotate(arr: StaticArray, steps: int) -> StaticArray:
     return rotated_array
 
 
-
 def sa_range(start: int, end: int) -> StaticArray:
     """
-    receives the two integers start and end, and returns a StaticArray that
-    contains all the consecutive integers between start and end (inclusive).
+    Create a StaticArray containing consecutive integers between start and end (inclusive).
 
     Args:
         start (int): The starting integer.
         end (int): The ending integer.
 
     Returns:
-        StaticArray: A StaticArray object that contains all the consecutive integers between start and end."""
+        StaticArray: A StaticArray object that contains all the consecutive integers between start and end.
+    """
+    # Calculate the size of the StaticArray based on the range
+    size = end - start + 1
 
-    new_arr = StaticArray(end - start + 1)
+    # Create a new StaticArray with the calculated size
+    arr = StaticArray(size)
 
-    for i in range(start, end + 1):
-        new_arr.set(i - start, i)
+    # Fill the StaticArray with consecutive integers
+    for i in range(size):
+        arr.set(i, start + i)
 
-    return new_arr
+    # Return the StaticArray
+    return arr
 
 def is_sorted(arr: StaticArray) -> int:
     """
