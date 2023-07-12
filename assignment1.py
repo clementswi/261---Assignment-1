@@ -77,28 +77,41 @@ def reverse(arr: StaticArray) -> None:
         arr.set(i, arr.get(arr.length() - i - 1))
         arr.set(arr.length() - i - 1, temp)
 
+
 def rotate(arr: StaticArray, steps: int) -> StaticArray:
     """
-    receives two parameters - a StaticArray and an integer value (called
-    steps). The function will create and return a new StaticArray, which contains all the
-    elements from the original array, but their position has shifted right or left steps number of
-    times. The original array must not be modified.
-    If steps is a positive integer, the elements will be rotated to the right. If steps is a negative
-    integer, they will rotate to the left."""
+    Rotate the elements of a StaticArray and return a new rotated StaticArray.
 
+    Parameters:
+        arr (StaticArray): The original array to be rotated.
+        steps (int): The number of steps to rotate the elements.
+                     Positive integer for right rotation, negative for left rotation.
 
-    new_arr = StaticArray(arr.length())
+    Returns:
+        StaticArray: A new StaticArray with the rotated elements.
+    """
+    # Create a new StaticArray with the same size as the original array
+    rotated_array = StaticArray(arr.length())
 
+    # Calculate the effective number of steps (taking modulo of the array length)
+    effective_steps = steps % arr.length()
+
+    # Copy the elements from the original array to the rotated array
     for i in range(arr.length()):
-        new_index = i + steps
-        if new_index < 0:
-            new_index = arr.length() - abs(new_index)
-        elif new_index >= arr.length():
-            new_index = new_index - arr.length()
+        # Calculate the new index for each element based on the rotation direction
+        if steps > 0:
+            new_index = (i + effective_steps) % arr.length()
+        else:
+            new_index = (i - effective_steps) % arr.length()
 
-        new_arr.set(i, arr.get(new_index))
+        # Set the element at the new index in the rotated array
+        rotated_array.set(new_index, arr.get(i))
 
-    return new_arr
+    # Return the rotated array
+    return rotated_array
+
+
+
 
 def sa_range(start: int, end: int) -> StaticArray:
     """
