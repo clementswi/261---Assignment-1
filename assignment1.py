@@ -86,12 +86,13 @@ def rotate(arr: StaticArray, steps: int) -> StaticArray:
     If steps is a positive integer, the elements will be rotated to the right. If steps is a negative
     integer, they will rotate to the left."""
 
+
     new_arr = StaticArray(arr.length())
 
     for i in range(arr.length()):
         new_index = i + steps
         if new_index < 0:
-            new_index = new_index + arr.length()
+            new_index = arr.length() - abs(new_index)
         elif new_index >= arr.length():
             new_index = new_index - arr.length()
 
